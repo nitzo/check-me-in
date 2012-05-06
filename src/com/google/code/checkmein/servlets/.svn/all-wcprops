@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/359/trunk/check-me-in/src/com/google/code/checkmein/servlets
+END
+StatisticsServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/87/trunk/check-me-in/src/com/google/code/checkmein/servlets/StatisticsServlet.java
+END
+ChartsParamsUpdaterServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/321/trunk/check-me-in/src/com/google/code/checkmein/servlets/ChartsParamsUpdaterServlet.java
+END
+EmailTesterServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/245/trunk/check-me-in/src/com/google/code/checkmein/servlets/EmailTesterServlet.java
+END
+POCDataInitServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/334/trunk/check-me-in/src/com/google/code/checkmein/servlets/POCDataInitServlet.java
+END
+Dump.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/185/trunk/check-me-in/src/com/google/code/checkmein/servlets/Dump.java
+END
+CheckInServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/359/trunk/check-me-in/src/com/google/code/checkmein/servlets/CheckInServlet.java
+END
+EventAttendingUpdaterServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/289/trunk/check-me-in/src/com/google/code/checkmein/servlets/EventAttendingUpdaterServlet.java
+END
+PersonUpdateServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/290/trunk/check-me-in/src/com/google/code/checkmein/servlets/PersonUpdateServlet.java
+END

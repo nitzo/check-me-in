@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="windows-1255" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255" />
+<link rel="stylesheet" type="text/css" href="../Css/Facebook.css" />
+<script type="text/javascript">
+// <![CDATA[
+function setVisible(obj, bool){
+
+	obj = document.getElementById(obj);
+
+	//case hide
+	if(bool == false){
+		if(obj.style.display != 'none');
+		obj.style.display = 'none';
+	//case show
+	}else {
+		 if(obj.style.display != 'block');
+		 obj.style.display = 'block';
+	}
+}
+
+function setForm(newValue){
+	
+	eventID = document.getElementById('eventID');
+	eventID.value = newValue;
+
+	setVisible('popupMessage',true);
+	
+}
+// ]]> 
+</script>
+<title>Check Me In Home Page</title>
+</head>
+<body>
+	<div class="appArea">
+		
+		<!-- check Me In Title -->
+		<div class="topHeaderContainer">	
+			<div class="topHeader">
+				<div>
+					<div class="topHeaderText">
+						<img src="../pictures/checkMeIn_logo.jpg"/>
+						<h2>
+							Check Me In
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Inner Container -->
+		<div class="innerContainer">
+
+			<!-- Inner Container Title-->
+			<div class="innerContainerHeaderWraper">
+				<div class="innerContainerHeader">
+					<h3>--User Name--'s Coupon</h3>
+				</div>
+			</div>
+			
+			<!-- Inner Container List -->
+			<div class="innerContainerContent">
+				<ul>
+
+					<!-- Inner Conteiner Item-->
+					<li> 
+						<div class="innerContainerContentItem">
+							<a href="--Event Link--">
+								<img src="../pictures/transperent_40x40.gif" style="background-image: url('/war/pictures/test_pic.jpg'); width:40px; height:40px;"/>						
+							</a>
+							<div class="innerContainerContentItemButton">
+								<a onclick="setForm('--EventID--');">
+									<span class="innerContainerContentItemButtonText">Get Your Coupon!</span>
+								</a>
+							</div>
+							
+							<span class="innerContainerContentItemDescription">
+								<span class="innerContainerContentItemDescriptionTitle">
+									<a href="--Event Link--">--The event Name--</a>
+								</span>
+								<div class="innerContainerContentItemDescriptionSubtitle">--Time of the event--</div>
+								<div class="innerContainerContentItemDescriptionSubtitle">--location of the event--</div>
+							</span>
+						</div>
+					</li>							
+
+				</ul>
+			</div>					
+
+		</div>	
+
+		<!-- popup container -->
+		<div id="popupMessage"class="popContainerWarper">
+			<div class="popContainer">
+				<div class="popContentWarper">
+					<div class="popContent">
+						<h2>
+							<span>Send Me The Coupon</span>
+						</h2>
+						<div class="popTextAreaOuterWraper">
+							<div class="popTextAreaInnerWraper">
+								<div class="popTextArea">
+									<form name=settings action="checkMeIn_HomePage.html" method="post">
+										<input id="eventID" type="hidden" name="eid" value=""/>
+										<table>
+											<tbody>	
+												<tr>
+													<th class="label">E mail: </th>
+													<td class="data">
+														<input id="Email" class="formData" name="addtionalemail" value="Name@Gmail.com" />
+													</td>
+												</tr>
+												<tr>
+													<th class="label">Mobile: </th>
+													<td class="data">
+														<input id="Mobile" class="formData" name="phonenumber" value="0502222222" />
+														<br />* Free SMS
+													</td>
+												</tr>
+						
+												<tr>
+													<th class="label"></th>
+													<td class="data">
+														<a class="formGrayButton" onclick="setVisible('popupMessage',false);">
+															<span>Cancel</span>
+														</a>
+														<div class="formBlueButton">
+														<input type="submit" value="Send!"/>
+														</div>	
+													</td>
+												</tr>
+											</tbody>	
+										</table>
+									</form>
+				
+								</div>							
+							</div>
+						</div>				
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+		
+</body>
+</html>

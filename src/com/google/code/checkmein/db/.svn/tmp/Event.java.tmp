@@ -1,0 +1,736 @@
+package com.google.code.checkmein.db;
+
+
+import java.util.Date; 
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+
+import com.google.appengine.api.datastore.Key;
+
+//TODO: add exceptions
+
+
+@PersistenceCapable
+public class Event  {
+	
+	@PrimaryKey     
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)     
+	private Key key;  
+	//@PrimaryKey     
+	@Persistent   
+	private String id; 
+	@Persistent
+	private PR owner;
+	//@Persistent
+	//private String ownerID;
+	//@Persistent
+	//private com.restfb.types.Event facebookEvent;
+	@Persistent
+	private String pic;
+	@Persistent
+	private String description;
+	@Persistent
+	private Date startTime;
+	@Persistent
+	private Date endTime;
+	@Persistent
+	private String location;
+	@Persistent
+	private String street;
+	@Persistent
+	private String city;
+	@Persistent
+	private String state;
+	@Persistent
+	private String country;	
+	@Persistent
+	private Set<String> Invited;
+	@Persistent
+	private Set<String> Attending;
+	@Persistent
+	private double AttendingPercent;
+	@Persistent
+	private Set<String> AwaitingReply;
+	@Persistent
+	private double AwaitingReplyPercent;
+	@Persistent
+	private Set<String> NotAttending;
+	@Persistent
+	private double NotAttendingPercent;
+	@Persistent
+	private Set<String> CheckedIn;
+	@Persistent
+	private double CheckedInPercent;
+	@Persistent
+	private Set<String> LiveRegistered;
+	@Persistent
+	private double LiveRegisteredPercent;
+	@Persistent
+	private List<Date> CheckInTime;
+	@Persistent
+	private String chart;
+	@Persistent
+	private double AVGattendanceRating;  //דירוג הגעה ממוצעת של אנשים לארוע
+	@Persistent
+	private int females; //keeps num of females checked in
+	@Persistent
+	private int males;	//keeps number of males checked in
+	@Persistent
+	private double FemaleRatio;  //keeps the female ratio that attended the event 
+	@Persistent
+	private double MaleRatio;  //keeps the male ratio that attended the event 
+	@Persistent
+	private String link;
+	@Persistent
+	private String updates;
+	@Persistent
+	private int newAttending;
+	@Persistent
+	private int newNotAttending;
+	@Persistent
+	private int newLiveRegistered;
+	@Persistent
+	private String privacy;
+	
+	/**
+	 * description: gets a facebook event and constructs all needed lists - attending, awaitingreply, not attending etc.
+	 * links the new Event to the facebook event by using setLink
+	 * creates a new chart using setChart
+	 * @param facebookEvent
+	 */
+	public Event(com.restfb.types.Event facebookEvent) {
+		//this.id=facebookEvent.getId();
+		//this.facebookEvent=facebookEvent;
+		//this.ownerID=facebookEvent.getOwner().getId();
+		setParams(facebookEvent);
+		this.CheckInTime = new LinkedList<Date>();
+		this.AwaitingReply = new HashSet<String>();
+		this.NotAttending = new HashSet<String>();
+		this.Attending = new HashSet<String>();
+		this.CheckedIn = new HashSet<String>();
+		this.Invited = new HashSet<String>();
+		this.LiveRegistered = new HashSet<String>();
+		setLink();
+		setChart();
+	}
+	/**
+	 * 
+	 * @return key - a persistent key
+	 */
+	public Key getKey() {
+		return key;
+	}
+	
+	/**
+	 * 
+	 * @return String id - the event id from facebook 
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/*public com.restfb.types.Event getFacebookEvent() {
+		return facebookEvent;
+	}
+
+	public void setFacebookEvent(com.restfb.types.Event facebookEvent) {
+		this.facebookEvent = facebookEvent;
+	}*/
+
+	/**
+	 * @return pic - the facebook pic of the event
+	 */
+	public String getPic() {
+		return pic;
+	}
+	
+	/**
+	 * 
+	 * @param pic - sets the event pic to be the one given in pic
+	 */
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
+
+	/**
+	 *  
+	 * @return the event start time in a Date format
+	 */
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * sets the event start time to be the time given in startTime
+	 * 
+	 * @param startTime 
+	 */
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	/**
+	 * 
+	 * @return endTime - the end time of the event
+	 */
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	/**
+	 * sets the end time of the event to be the time given in endTime
+	 * @param endTime
+	 */
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	/**
+	 * 
+	 * @return owner - a PR object of the event owner
+	 */
+	public PR getOwner() {
+		return owner;
+	}
+
+//	public void setOwner(PR owner) {
+//		this.owner = owner;
+//	}
+
+	/**
+	 * @return description - a String describing the event 
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * sets the event description to be the one given in description
+	 * @param description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * 
+	 * @return location - a String containing the event location
+	 */
+	public String getLocation() {
+		return location;
+	}
+
+	/**
+	 * sets the event location to be the location given
+	 * @param location
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	/**
+	 * @return link - a String containing the url of the facebook event
+	 * make sure it is called only after setLink was called so the url is correct 
+	 */
+	public String getLink() {
+		return link;
+	}
+
+	/**
+	 * sets the url of the event to be the event url taken from facebook using the eventID
+	 */
+	public void setLink() {
+		this.link = "http://www.facebook.com/event.php?eid="+id;
+	}
+
+	/**
+	 * @return Invited - a Set<String> containing all the invited customers to the event right now
+	 */
+	public Set<String> getInvited() {
+		return Invited;
+	}
+
+	/**
+	 * adds an id of a new customer invited to the event to Invited
+	 * @param id
+	 */
+	public void addInvited(String id) {
+		Invited.add(id);
+	}
+
+	/**
+	 * 
+	 * @return CheckInTime - a List<Date> of the times all customers checkedIn the event.
+	 * the Dates are not sorted!
+	 */
+	public List<Date> getCheckInTime() {
+		return CheckInTime;
+	}
+
+	/*
+	 * adds a new Date object to the CheckInTime list when another customer checks in the event
+	 * 
+	 * pay attention that the time is in UTC and not GMT so u need to add 2 hours!!
+	 * 
+	 */
+	public void addCheckInTime() {
+		CheckInTime.add(new Date());
+	}
+	
+	/**
+	 * 
+	 * @return Attending - a Set<String> with all the people who chose to attend the event up to now
+	 */
+	public Set<String> getAttending() {
+		return Attending;
+	}
+
+	/**
+	 * adds the facebook id given to the Attending list and increases newAttending so when updates are checked 
+	 * you can know how many newAttendings are since last time, and calls setUpdates
+	 * @param id
+	 */
+	public void addAttending(String id) {
+		Attending.add(id);
+		newAttending++;
+		setUpdates();
+	}
+
+	/**
+	 * removes the facebook id given from the Attending list
+	 * @param id
+	 */
+	public void removeAttending(String id) {
+		Attending.remove(id);
+	}
+	
+	/**
+	 * sets the Attending list to be the one given 
+	 * @param Attending
+	 */
+	public void setAttending(Set<String> Attending){
+		this.Attending=Attending;
+	}
+	
+	/**
+	 * 
+	 * @return AwaitingReply - a Set<String> of the customers that are in awaiting reply 
+	 */
+	public Set<String> getAwaitingReply() {
+		return AwaitingReply;
+	}
+
+	/**
+	 * adds a facebook id of a new customer who is awaiting reply
+	 * @param id
+	 */
+	public void addAwaitingReply(String id) {
+		AwaitingReply.add(id);
+	}
+
+	/**
+	 * removes the id given from the awaiting reply list
+	 * @param id
+	 */
+	public void removeAwaitingReply(String id) {
+		AwaitingReply.remove(id);
+	}
+	
+	/**
+	 * 
+	 * @return NotAttending - a Set<String> of the NotAttending customers
+	 */
+	public Set<String> getNotAttending() {
+		return NotAttending;
+	}
+
+	/**
+	 * adds the facebook id given to the NotAttending list and increases newNotAttending so when updates are checked 
+	 * you can know how many newNotAttendings are since last time, and calls setUpdates
+	 * @param name
+	 */
+	public void addNotAttending(String id) {
+		NotAttending.add(id);
+		newNotAttending++;
+		setUpdates();
+	}
+	/**
+	 * removes the id given from NotAttending list
+	 * @param id
+	 */
+	public void removeNotAttending(String id) {
+		NotAttending.remove(id);
+	}
+
+	/**
+	 * adds a live registered id to the LiveRegistered list, increases newLiveRegistered and calls setUpdates
+	 */
+	public void addLiveRegistered(String id) {
+		LiveRegistered.add(id);
+		newLiveRegistered++;
+		setUpdates();
+	}
+
+	/**
+	 * sets live registered to the Set given
+	 * @param id
+	 */
+	public void setLiveRegistered(Set<String> LiveRegistered) {
+		this.LiveRegistered=LiveRegistered;
+	}
+
+	/**
+	 * 
+	 * @return CheckedIn - a list of the checked in users
+	 */
+	public Set<String> getCheckedIn() {
+		return CheckedIn;
+	}
+
+	/**
+	 * adds a new checked in customer with ID id to CheckedIn list. adds the CheckIn time depends on the gender of the new customer
+	 * increases females or males - to use with the statistics tools
+	 * @param id
+	 */
+	public void addCheckedIn(String id) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String query = "select from " + Customer.class.getName() + " where id == '"+ id+ "'";
+		@SuppressWarnings("unchecked")
+		List<Customer> customer = (List<Customer>) pm.newQuery(query).execute();
+		if(customer.size() != 0){
+			Customer c = customer.get(0);
+			String gender = c.getGender();
+			if(gender.equals("female")){ //TODO: how facebook keeps the gender
+				females++;
+			}
+			else if(gender.equals("male")){
+				males++;
+			}
+		}
+		CheckedIn.add(id);
+		addCheckInTime();
+		//newCheckedIn++;
+		pm.close();
+	}
+
+	/**
+	 * 
+	 * @return a String containing the url of the chart of the checkedIn percent customers from the total customers 
+	 */
+	public String getChart() {
+		return chart;
+	}
+
+	/**
+	 * sets chart to be correct according to the checked in customers from the total customers invited
+	 */
+	public void setChart() {
+		float percent= ((float)this.CheckedIn.size()/(float)this.Attending.size())*100;
+		this.chart = "http://chart.apis.google.com/chart?&chs=300x230&cht=p3&chco=FF0000|224499&chd=t:"+(100-percent)+","+percent+"&chdl=not+attended|attended&chdlp=b&chl="+(this.Attending.size()-this.CheckedIn.size())+"|"+this.CheckedIn.size()+"&chtt=Attendence&chts=676767,20";
+		//this.chart = "http://chart.apis.google.com/chart?chf=bg,s,F5F5F5&chs=300x230&cht=p3&chco=FF0000|224499&chd=t:"+(100-persent)+","+persent+"&chdl=not+attended|attended&chdlp=b&chl="+(this.Attending-this.CheckedIn)+"|"+this.CheckedIn+"&chtt=Attendence&chts=676767,20";
+	}
+
+	/**
+	 * 
+	 * @return AVGattendanceRating a double (0-10) of the average attendance rating of the people invited to the event
+	 */
+	public double getAVGattendanceRating() {
+		return AVGattendanceRating;
+	}
+
+	/**
+	 * sets AVGattendanceRating to be the one given
+	 * @param AVGattendanceRating
+	 */
+	public void setAVGattendanceRating(double AVGattendanceRating) {
+		this.AVGattendanceRating = AVGattendanceRating;
+		//(this.AVGattendanceRating*(this.Attending.size()-1) + AVGpersonRate)/this.Attending.size();
+	}
+	//TODO: initialize???
+	/**
+	 * 	updates the average attendance rating to be correct to this moment. 
+	 *  computed by dividing the average rating of the people + this one in the total number of people  
+	 *  
+	 *  call this method after each time u invite another customer to the event - and send this new person AVGpersonRate to the method
+	 */
+	public void updateAVGattendanceRating(double AVGpersonRate) {
+		this.AVGattendanceRating = (this.AVGattendanceRating*(this.Attending.size()-1) + AVGpersonRate)/(double)this.Attending.size();
+	}
+	
+/*	public String getOwner(){
+		return this.ownerID;
+	}
+	
+	public void setOwner(String ownerID){
+		this.ownerID = ownerID;
+	}
+	*/
+	
+	/**
+	 * returns a double - the Attending percent of the people invited/
+	 * 0 - means no one attends
+	 * 100 means everybody attends
+	 */
+	public double getAttendingPercent() {
+		return AttendingPercent;
+	}
+
+	/**
+	 * sets AttendingPercent to be the one given 
+	 * @param AttendingPercent
+	 */
+	public void setAttendingPercent(double AttendingPercent) {
+		this.AttendingPercent = AttendingPercent;
+	}
+	
+	/*
+	 * updates the attending percent. need to call it every time a customer
+	 * attends, and only after addAttending is called or 
+	 * removeAttending
+	 * 
+	 */
+	public void updateAttendingPercent() {
+		AttendingPercent = (double)Attending.size()/(double)Invited.size();
+	}
+
+	public double getAwaitingReplyPercent() {
+		return AwaitingReplyPercent;
+	}
+
+	public void setAwaitingReplyPercent(double awaitingReplyPercent) {
+		AwaitingReplyPercent = awaitingReplyPercent;
+	}
+
+	/*
+	 * updates the AwaitingReply percent. need to call it every time a customer
+	 * sets awaiting reply, and only after addAwaitingReply is called
+	 * or removeAwaitingReply
+	 * 
+	 */
+	public void updateAwaitingReplyPercent() {
+		this.AwaitingReplyPercent = (double)AwaitingReply.size()/(double)Invited.size();
+	}
+	
+	public double getNotAttendingPercent() {
+		return NotAttendingPercent;
+	}
+
+	public void setNotAttendingPercent(double notAttendingPercent) {
+		NotAttendingPercent = notAttendingPercent;
+	}
+	
+	/*
+	 * updates the NotAttendingPercent. need to call it every time a customer
+	 * sets not attending, and only after addNotAttending is called
+	 * or removeNotAttending
+	 * 
+	 */
+	public void updateNotAttendingPercent() {
+		this.NotAttendingPercent = (double)NotAttending.size()/(double)Invited.size();
+	}
+
+	public double getCheckedInPercent() {
+		return CheckedInPercent;
+	}
+
+	public void setCheckedInPercent(double checkedInPercent) {
+		CheckedInPercent = checkedInPercent;
+	}
+
+	/*
+	 * updates the CheckedInPercent. need to call it every time a customer
+	 * sets cheched in, and only after addCheckedIn is called
+	 * or removeCheckedIn
+	 * 
+	 */
+	public void updateCheckedInPercent() {
+		this.CheckedInPercent = (double)CheckedIn.size()/(double)Invited.size();
+	}
+	
+	public double getLiveRegisteredPercent() {
+		return LiveRegisteredPercent;
+	}
+
+	public void setLiveRegisteredPercent(double liveRegisteredPercent) {
+		LiveRegisteredPercent = liveRegisteredPercent;
+	}
+	
+	/*
+	 * updates the LiveRegisteredPercent. need to call it every time a customer
+	 * live registers, and only after addLiveRegistration is called
+	 * 
+	 */
+	public void updateLiveRegisteredPercent() {
+		this.LiveRegisteredPercent = (double)LiveRegistered.size()/(double)Invited.size();
+	}
+
+	public double getFemaleRatio() {
+		return FemaleRatio;
+	}
+
+	public void setFemaleRatio(double femaleRatio) {
+		FemaleRatio = femaleRatio;
+	}
+	
+	/*
+	 * updates the FemaleRatio. need to call it every time a female
+	 * live registers
+	 * 
+	 */
+	public void updateFemaleRatio() {
+		this.FemaleRatio = (double)females/(double)CheckedIn.size();
+	}
+
+	public double getMaleRatio() {
+		return MaleRatio;
+	}
+
+	public void setMaleRatio(double maleRatio) {
+		MaleRatio = maleRatio;
+	}
+	
+	/*
+	 * updates the LiveRegisteredPercent. need to call it every time a customer
+	 * live registers, and only after addLiveRegistration is called
+	 * 
+	 */
+	public void updateMaleRatio() {
+		this.MaleRatio = (double)males/(double)CheckedIn.size();
+	}
+
+	public int getFemales() {
+		return females;
+	}
+
+	public void setFemales(int females) {
+		this.females = females;
+	}
+
+	public int getMales() {
+		return males;
+	}
+
+	public void setMales(int males) {
+		this.males = males;
+	}
+	
+	//TODO:what else need to update??
+	public String getUpdates() {
+		String temp = updates;
+		updates = "noUpdates";
+		newAttending=0;
+		newNotAttending=0;
+		newLiveRegistered=0;
+		return temp;
+	}
+
+	public void setUpdates() {
+		
+		StringBuilder s = new StringBuilder();
+		
+		if(newAttending!=0){
+			s.append(newAttending + " new \"Attending\" on "+ description + " ");
+		}
+		if(newNotAttending!=0){
+			s.append(newNotAttending + " new \"Not Attending\" on "+ description + " ");
+		}
+		if(newLiveRegistered!=0){
+			s.append(newLiveRegistered + " new \"Live Registered\" on "+ description + " ");
+		}
+		
+		updates = s.toString();
+	}
+
+	/**
+	 * 	  
+	 * @param facebookEvent a new facebook event to add as event
+	 * sets all private fields to their value from the facebook event
+	 * 
+	 *  TODO: get the event pic from facebook - right now not possible!
+	 */
+	public void setParams(com.restfb.types.Event facebookEvent){
+//		PR p = null;
+//		PersistenceManager pm = PMF.get().getPersistenceManager();
+//		String query = "select from " + PR.class.getName() + " where id == '" + facebookEvent.getId() + "'" ;
+//		@SuppressWarnings("unchecked")
+//		List<PR> pr = (List<PR>) pm.newQuery(query).execute();
+//		if(pr.size()!=0){
+//			p = pr.get(0);
+//		}
+//		else {
+//			//TODO: error
+//		}
+//		this.setOwner(p);
+		this.id = facebookEvent.getEventID();
+		this.endTime = facebookEvent.getEndTime();
+		this.startTime = facebookEvent.getStartTime();
+		this.description = facebookEvent.getDescription();
+		this.location = facebookEvent.getLocation();
+		
+		if (facebookEvent.getVenue() != null){
+			this.street = facebookEvent.getVenue().getStreet();
+			this.state = facebookEvent.getVenue().getState();
+			this.city = facebookEvent.getVenue().getCity();
+			this.country = facebookEvent.getVenue().getCountry();
+		}
+		
+		this.privacy=facebookEvent.getPrivacy();
+		
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	
+	/**
+	 * The visibility of this event. Can be 'OPEN', 'CLOSED', or 'SECRET'.
+	 * 
+	 * @return The visibility of this event. Can be 'OPEN', 'CLOSED', or 'SECRET'.
+	 */
+	  public String getPrivacy() {
+	    return privacy;
+	  }
+	  
+	  public void setPrivacy(String privacy) {
+			this.privacy = privacy;
+		}
+	
+}

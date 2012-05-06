@@ -1,0 +1,90 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.restfb.types.User" %>
+<%@ page import="com.restfb.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.google.code.checkmein.util.*" %>
+<%@ page import="com.google.code.checkmein.BLogic.CustomerServerLogic" %>
+<%@ page import="com.google.code.checkmein.db.Customer" %>
+<%@ page import="com.google.code.checkmein.db.Event" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
+<link rel="stylesheet" type="text/css" href="../Css/PRwelcome.css"/>
+<title>Customer welcome Page</title>
+</head>
+<body>
+		
+	<%
+		//Config Params:
+		//TODO: Move to db
+		String APP_ID = "181101565234488";
+		String APP_SECRET = "79428730ab821cfeb9b89912b10f1b31";
+		String SCOPE = "email,offline_access,publish_stream"; //Permissions requered from user for APP
+		String CANVAS_APP_URL = "http://apps.facebook.com/check-me-in/";
+	
+		
+		CustomerServerLogic clogic = new CustomerServerLogic();
+		
+		
+		/************** Facebook Authenication & Validation procedure **********************/
+		ExtendedFaceBookClient fbclient = new ExtendedFaceBookClient(APP_ID, APP_SECRET);
+		Parameter scope = Parameter.with("scope", SCOPE);
+		
+				
+		//Verify user has installed our app. If not Redirect to Installation + Redirect Back
+		if(!fbclient.checkUser(request, response, true, scope)){ %>
+			 <script type="text/javascript">
+		        top.location = "<%= fbclient.getCanvasAuthorizeURL(CANVAS_APP_URL, scope) %>";
+		 	</script>
+		<%	return; }
+		
+			//Get current user details for update in DB
+			User user;
+			user = fbclient.fetchObject("me",User.class);		
+			
+			/********* End Facebook Authentication & Validation procedure **********************/
+			
+			Customer customer = null;
+			
+			if (user == null){
+				//TODO: Print Error
+				out.println("Error getting user detials");		
+			}else{
+				customer = clogic.updateCustomerDetails(user, fbclient.getAccessToken());
+			}
+			
+			if(customer != null){
+				
+				List<Event> customerEvents = clogic.getCustomerEvents(customer);
+	%>
+	
+	<div id="appFrame">
+		<div id="appFrameHeader">
+			<img id="appFrameLogo" src="../pictures/logo.png"/>
+			<%= customer.getFirstName()%>'s Coupons
+		</div>
+		
+		<div class="InnerFrameHeader">My Coupons</div>
+		<% for (Event e : customerEvents){ %>		
+			<div class="event">
+				<div class="eventDescription">
+					<img class="eventImg" src="<%= e.getPic() %>" />
+					<a target="_top" href="<%= e.getLink() %>"><%= e.getName() %> coupon</a>
+					<span class="actionLink"><a href="<% //TODO: link to the servelet that send you the event again %>">Send it again!</a></span>
+					<br />
+					<span> <%= e.getStartTime().toGMTString() %> to <%= e.getEndTime().toGMTString() %></span>
+					<br />
+					<span> <%= e.getLocation() %> </span>
+				</div>
+			</div>
+		<% } %>
+	</div>
+		
+	<%
+			}
+		
+	%>
+
+</body>
+</html>

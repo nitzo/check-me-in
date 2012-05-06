@@ -1,0 +1,87 @@
+package com.google.code.checkmein.servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.code.checkmein.BLogic.FacebookLogic;
+import com.google.code.checkmein.db.Customer;
+import com.google.code.checkmein.db.DatabaseLogic;
+import com.google.code.checkmein.db.Event;
+
+@SuppressWarnings("serial")
+public class CheckInServlet extends HttpServlet {
+	
+	//TODO: check that who ever scans the QR has the permission
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+
+		//TODO: check that who ever scans the QR has the permission
+		
+		
+		String color = "FF0000"; //red
+		String approved = "DENIED";
+			//"http://img12.imageshack.us/img12/2695/deniedm.png";
+		
+		String facebookID = req.getParameter("fid");
+		String eventID = req.getParameter("eid");
+		
+		Customer customer = DatabaseLogic.getCustomer(facebookID);
+		if(customer != null){
+			Event event = DatabaseLogic.getEvent(eventID);
+			if(event != null){
+				if(event.getAttending().contains(facebookID)){
+					color="00FF00"; //green
+					approved="APPROVED";
+					DatabaseLogic.setCheckedIn(event, customer);
+					
+					String postmessage;
+					
+					postmessage = "Has just checked in at " + event.getName() + " and recieved a free chaser!";
+					
+					
+					
+					
+					FacebookLogic.publishFeed(customer, postmessage, event.getLink(), event.getName());
+					
+					
+				}
+				else if(event.getCheckedIn().contains(facebookID)){
+					approved="ALREADY <br> CHECKED-IN";
+				}
+				else {
+					approved="CUSTOMER <br> DIDN'T CONFIRM <br> THIS EVENT";
+				}
+			}
+			else{
+				approved = "WRONG EVENT-ID";
+			}
+		}
+		else{
+			approved = "NO SUCH CUSTOMER";
+		}
+		
+		//String logo="http://img823.imageshack.us/img823/6738/logo1st.png"; 
+		//String font="Tahoma";
+		
+		resp.setContentType("text/html");
+		PrintWriter out = resp.getWriter();
+		out.println("<html>");
+		out.println("<head>");
+		out.println("<title> register </title>");
+		out.println("</head>");
+		out.println("<body bgcolor=" + color + ">");
+		out.println("<table width=100% height=100% border=\"0\">");
+		out.println("<tr>");
+		out.println("<td align=\"center\" valign=\"middle\" width=100% height=100%><p style=\"font-size:700%\"><b>" + approved + "</b></p></td>");
+		out.println("</tr>");
+		out.println("</table>" );
+		out.println("</body>");
+		out.println("</html>");
+		out.close();
+
+	}
+	
+}

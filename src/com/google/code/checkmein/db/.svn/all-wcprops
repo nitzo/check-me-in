@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/190/trunk/check-me-in/src/com/google/code/checkmein/db
+END
+Event.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/339/trunk/check-me-in/src/com/google/code/checkmein/db/Event.java
+END
+Customer.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/289/trunk/check-me-in/src/com/google/code/checkmein/db/Customer.java
+END
+PR.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/273/trunk/check-me-in/src/com/google/code/checkmein/db/PR.java
+END
+PMF.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/28/trunk/check-me-in/src/com/google/code/checkmein/db/PMF.java
+END
+DatabaseLogic.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/341/trunk/check-me-in/src/com/google/code/checkmein/db/DatabaseLogic.java
+END
+QR.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/289/trunk/check-me-in/src/com/google/code/checkmein/db/QR.java
+END
+Person.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/321/trunk/check-me-in/src/com/google/code/checkmein/db/Person.java
+END

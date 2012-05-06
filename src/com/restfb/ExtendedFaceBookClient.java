@@ -1,0 +1,429 @@
+package com.restfb;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+import com.google.code.checkmein.util.SessionManager;
+import com.restfb.types.OAuth;
+import org.apache.commons.codec.binary.Base64;;
+
+/***
+ * 
+ * An extendet RestFB facebook client.
+ * 
+ * Includes functions for retrieving object's access token.
+ *  
+ * 
+ * @author Nitzan Bar
+ *
+ */
+public class ExtendedFaceBookClient extends DefaultFacebookClient {
+
+	
+	protected static final String EXCHANGE_SESSIONS_OBJECT = "oauth/exchange_sessions";
+	protected static final String ACCESS_TOKEN_OBJECT = "oauth/access_token";
+	protected static final String AUTHORIZE_OBJECT = "oauth/authorize";
+	protected static final String SCOPE_PARAM_NAME = "scope";
+	
+	protected String APP_ID;
+	protected String APP_SECRET;
+	private static final String FB_CANVAS_PARAM_PREFIX = "fb_sig";
+	protected HashMap<String,String> fb_params;
+		
+	/**
+	 * Exchange facebook session_key with access_token 
+	 * @param session_key
+	 * @return An OAuth access token
+	 * @throws FacebookException
+	 */
+	private OAuth exchangeSession(String session) throws FacebookException {
+	    
+		verifyParameterPresence("session", session);
+		
+     
+		String response = makeRequest(EXCHANGE_SESSIONS_OBJECT, false, true, false, null, Parameter.with("client_id", this.APP_ID),
+																						   Parameter.with("client_secret", this.APP_SECRET),
+																						   Parameter.with("sessions", session));
+	    
+	    List<String> list = jsonMapper.toJavaList(response, String.class);
+	    
+	    if (list != null){
+	    	return jsonMapper.toJavaObject(list.get(0), OAuth.class);
+	    }
+	    else
+	    	return null;
+	  }
+	
+	
+		/**
+		 * Exchange facebook code with access_token 
+		 * @param code
+		 * @param redirect_uri - The uri used to obtain the code. MUST match the previous request!
+		 * @return An OAuth access token
+		 * @throws FacebookException
+		 */
+		private String exchangeCode(String code, String redirect_uri) throws FacebookException {
+		    
+			//Facebook returns "access_code=XXX"
+			//This function returns XXX
+			String fb_accessTokenSeq = "access_token=";
+			
+			verifyParameterPresence("code", code);
+			verifyParameterPresence("redirect_uri", redirect_uri);
+			
+			String response = makeRequest(ACCESS_TOKEN_OBJECT, false, true, false, null, Parameter.with("client_id", this.APP_ID),
+																						 Parameter.with("client_secret", this.APP_SECRET),
+																						 Parameter.with("redirect_uri", redirect_uri),
+																						 Parameter.with("code", code));
+		    
+		    if (response != null & response.startsWith(fb_accessTokenSeq)){
+		    	return response.substring(fb_accessTokenSeq.length());
+		    }
+		    else
+		    	return null;
+		    
+		  }
+	
+	  
+	  public ExtendedFaceBookClient(String access_token){
+		  super(access_token);
+	  }
+	  
+	  public ExtendedFaceBookClient(String APP_ID, String APP_SECRET){
+		  super();
+		  this.APP_ID = APP_ID;	 
+		  this.APP_SECRET = APP_SECRET;
+		  this.fb_params = new HashMap<String, String>();
+		  
+		 
+	
+	  }
+	  
+	  public String getAccessToken(){
+		  return this.accessToken;
+	  }
+	  
+	  /** 
+	   * This function handles authentication procedure for canvas & non-canvas apps in facebook
+	   * @param session
+	   * @param isCanvas
+	   * @param scope
+	   * @return true if authentication procedure sucedeed false other wise. Note: Some procedures make involve sending a redirect  returning false.
+	   */
+	  public boolean checkUser(SessionManager session, boolean isCanvas, Parameter scope){ //TODO: Build ENUM for scope
+		  	  
+		  
+		  verifyParameterPresence("scope", scope);
+		  
+		  OAuth oauth;
+		  
+		  		  
+		  //TODO: Handle case user has not authorized the app
+		  if (isCanvas){ //Find out if user is logged on & verify canvas params
+			  
+			  //Get Canvas Parameters
+			  if(!getAndValidateCanvasFBParams(session.getRequest())){
+				  return false; 
+			  }
+		  		
+			  if (fb_params.containsKey("oauth20"))
+				  return true;
+			  
+			  //Check that app is added and we have permissions
+			  //TODO: Verify we have all permissions
+			  if (!fb_params.containsKey("added") ||  !fb_params.get("added").equals("1")){ 
+				  return false;
+			  }
+			  
+			  if (!fb_params.containsKey("user")){
+				  return false;
+			  }
+			  
+			  //Exchange session key for an OAuth token
+			  try {
+				  oauth = exchangeSession(fb_params.get("session_key"));
+			  }
+			  catch (FacebookException e){
+				  return false;
+			  }
+			  
+			  this.accessToken = StringUtils.trimToNull(oauth.getAccessToken());
+			  
+			  
+			  return true;
+			  
+			  
+		  }
+		  else { //Non canvas method
+			  
+			  
+			  //Check for "code" parameter in order to exchange with access_token
+			  String code = session.getRequest().getParameter("code");
+			  
+			  //No code yet - redirect user to authorize app page
+			  if (code == null){ 
+				  
+				  //Build redirect url (Include queryString in redirect_uri
+				  //This is the url facebook will redirect back after authorization
+				  String redirect_uri = session.getRequest().getRequestURL() + "?" + session.getRequest().getQueryString();
+				  
+				  //Get url to redirect user to
+				  String url = getCanvasAuthorizeURL(redirect_uri, scope);	  
+				
+				try {
+					session.getResponse().sendRedirect(url);
+				} catch (IOException e) { //Error redirecting
+					return false;
+				}  
+				  
+			  }
+			  
+			  else{ //We have a CODE! Exchange for access_token
+				
+				
+				//Rebuild redirect_uri to exchange "code=" in access_token  
+				String redirect_uri =  session.getRequest().getRequestURL() + "?";
+					
+				//Remove &code= from QueryString (In order to send facebook the exact redirect_uri as before)
+				String subString = "&code=";
+				int x = session.getRequest().getQueryString().lastIndexOf(subString);
+				redirect_uri += session.getRequest().getQueryString().substring(0, x);
+					
+				
+				//Exchange code for access_token
+				String access_token = null;
+				try{
+					 access_token = exchangeCode(code, redirect_uri);
+				}
+				catch (FacebookException e){
+					return false;
+				}
+						
+				if (access_token != null){					
+					this.accessToken = StringUtils.trimToNull(access_token);
+					return true;
+						
+				}				
+			  }	  
+			  
+		  }
+		  
+		  
+		  return false;
+		  
+	  }
+	  
+	  /**
+	   * Get Http request params and parse into HasMap<String,String>
+	   * @param The HttpServletRequest 
+	   * @return A HashMap containin all the request's parameters
+	   */
+	  private HashMap<String,String> getRequestParams(HttpServletRequest request){
+		  
+		  HashMap<String,String> params = new HashMap<String, String>();
+		  Map<String,String[]> map = request.getParameterMap();
+		  
+		  for (Entry<String,String[]> entry : map.entrySet()){
+			  params.put(entry.getKey(), entry.getValue()[0]);
+		  }
+		  
+		  return params;
+		  
+	  }
+	  
+	  
+	  /**
+	   * Get Facebook parameters from request and validate signature 
+	   * @param request
+	   * @return True iff parameters match signature. this.fb_params will hold all of the parameters
+	   */
+	  private boolean getAndValidateCanvasFBParams(HttpServletRequest request) { 
+		 
+		  //TODO: Implement OAuth 2.0 
+		  //TODO: Verify Timeout 
+		
+		  HashMap<String,String> params = getRequestParams(request);
+		  
+		  
+		  if (params.containsKey("signed_request")){
+			  return getAndValidateCanvasOAuth2Params(params.get("signed_request"));
+		  }
+
+		  //Get all parameters, remove fb_sig_ from key name and put in HashMap
+		  String prefix = FB_CANVAS_PARAM_PREFIX + "_";
+		  int prefix_length = prefix.length();				
+
+		  for (Entry<String,String> param : params.entrySet()){			
+						  
+			if (param.getKey().indexOf(prefix) == 0){
+				String key = param.getKey().substring(prefix_length);
+				this.fb_params.put(key, param.getValue());
+			}
+			  
+		  }
+		  
+		  String str = generateCanvasSignature(this.fb_params);
+		  
+		  String expectedSig = params.get(FB_CANVAS_PARAM_PREFIX);
+		  
+		  return verifyCanvasSignature(str, expectedSig);		
+				
+					
+	  }
+
+
+	private boolean getAndValidateCanvasOAuth2Params(
+			String signed_request) {
+		try{
+		//it is important to enable url-safe mode for Base64 encoder 
+        Base64 base64 = new Base64(true);
+
+        //split request into signature and data
+        String[] signedRequest = signed_request.split("\\.", 2);
+
+        //parse signature
+        String sig = new String(base64.decode(signedRequest[1].getBytes("UTF-8")));
+        
+        JSONObject json = new JSONObject(sig);
+        
+        this.fb_params.put("added", "1");
+        this.fb_params.put("user", json.getString("user"));
+        this.fb_params.put("oauth20", "true");
+        this.accessToken = json.getString("oauth_token");
+        
+        
+        
+		} catch (JSONException e) {
+			return false;
+		} catch (UnsupportedEncodingException e){
+			return false;
+		}
+		
+		return true;
+	}
+
+
+	/**
+	 * @return
+	 */
+	private String generateCanvasSignature(HashMap<String,String> map) {
+		//Sort Keys to verify signature
+		  SortedSet<String> keys = new TreeSet<String>(map.keySet());
+		  String str = new String();
+		  for (String key : keys){
+			  str += key + "=" + fb_params.get(key);
+		  }
+		  
+		  str += this.APP_SECRET;
+		return str;
+	}
+
+
+	private boolean verifyCanvasSignature(String str, String expectedSig) {
+		byte[] hash;	   
+		  try {
+			  MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+			  digest.update(StringUtils.toBytes(str));
+			  hash = digest.digest();
+		  }
+		  catch (NoSuchAlgorithmException e){
+			  throw new IllegalStateException("The platform does nto support MD5" , e);
+		  }
+		  
+		  StringBuilder result = new StringBuilder();
+				   	   
+		  for ( byte b : hash ) {
+			  result.append( Integer.toHexString( ( b & 0xf0 ) >>> 4 ) );
+			  result.append( Integer.toHexString( b & 0x0f ) );
+		  }			   
+			
+		  return result.toString().equals(expectedSig);
+	}
+
+
+	/**
+	   * 
+	   * Generate Facebook App Authorize URL based on parameters (For Canvas App)
+	   * 
+	   * @param redirect_url The URL to redirect after login
+	   * @param scope The permissions to request from User
+	   * 
+	   */
+	  public String getCanvasAuthorizeURL(String redirect_url, Parameter scope){
+		  
+		  StringBuilder url = new StringBuilder();
+		  
+
+		  
+		  url.append(FACEBOOK_GRAPH_ENDPOINT_URL + "/");
+		  url.append(AUTHORIZE_OBJECT + "?");
+		  url.append("client_id=" + this.APP_ID);
+		  url.append("&redirect_uri=" + StringUtils.urlEncode(redirect_url));
+		  url.append("&scope=" + scope.value);
+		  
+		  
+		  return url.toString();
+	  
+	  }
+	  
+//	  /**
+//	   * 
+//	   * 
+//	   * Generate Facebook Authorization URL (TO authorize an APP)
+//	   *	   
+//	   */
+//	  public String getAuthorizeURL(HttpServletRequest request, Parameter scope){
+//		  
+//		  StringBuilder url = new StringBuilder();
+//		  		  		  
+//		  url.append(FACEBOOK_GRAPH_ENDPOINT_URL + "/");
+//		  url.append("oauth/authorize?");
+//		  url.append("client_id=" + this.APP_ID);
+//		  url.append("&redirect_uri=" + this.getCurrentURL(request));
+//		  url.append("&scope=" + scope.value);
+//		  
+//		  return url.toString();
+//		  
+//	  }
+	  
+	  /**
+	   * Return the HTTP request URL (URL Encoded)
+	   * @return
+	   */
+	  private String getCurrentURL(HttpServletRequest request){
+		
+		
+		return StringUtils.urlEncode(request.getRequestURL().toString());		
+		  
+	  }
+
+	public String getLoginStatusUrl() {
+		
+		StringBuilder url = new StringBuilder();
+		
+		url.append("http://www.facebook.com/");
+		url.append("extern/login_status.php?");
+		url.append("api_key=164864586891890");
+		url.append("&ok_session=http://check-me-in.appspot.com/dump");
+		url.append("&no_session=http://check-me-in.appspot.com/dump");
+		url.append("&no_user=http://check-me-in.appspot.com/dump");
+		url.append("&session_version=3");
+		
+		return url.toString();
+		
+	}
+	  
+}

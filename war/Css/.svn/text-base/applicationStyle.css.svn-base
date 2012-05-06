@@ -1,0 +1,102 @@
+@CHARSET "windows-1255";
+
+/*************/
+/* QR Coupon */
+/*************/
+
+.frameWraper{
+	width:100%;
+	height:100%;
+	position:relative;
+	vertical-align:middle;
+}
+
+.middleContent{
+	vertical-align:middle;
+}
+
+.printContent{
+	display:none;
+}
+
+.couponContainer{
+	width:20%;
+	margin-left: auto;
+	margin-right: auto;
+	min-width:200px;
+
+}
+
+.logoWraper{
+	width:100%;
+}
+
+.Logo{
+	width:100%;
+}
+
+.leftLogo{
+	float:left;
+	width:50%;
+	max-width:100px;
+}
+
+.rightLogo{
+	float:right;
+	width:50%;
+	max-width:100px;
+}
+
+.qrCoupon{
+	width:100%;
+}
+
+.text{
+	text-align:center;
+	vertical-align:middle;
+}
+
+.printButtonWraper{
+	width:100%;
+	position:relative;
+}
+
+.printButton{
+	display:block;
+	width:30%;
+	height:30px;
+	position:absolute;
+	left:35%;
+	font-style:italic;
+	font-weight:bold;
+	min-width:70px;
+}
+
+/*************/
+/* PR Backup */
+/*************/
+
+.mobileBody{
+	background:#000000;
+}
+.mobileFrame{
+	width:100%;
+	height:100%;
+	position:relative;
+}
+
+.mobileInnerFrame{
+	padding:10px;
+	text-align:center;
+	min-width:200px;
+	background-color:#b9f4ff;
+	margin:10px;
+}
+
+.mobileInnerFrame input{
+	max-width:80px;
+	min-width:80px;
+	margin:5px;
+	font-weight:bold;
+}
+

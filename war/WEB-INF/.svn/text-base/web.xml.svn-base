@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+	
+	<!-- Application Servlets -->
+	<servlet>
+		<servlet-name>CheckInServlet</servlet-name>
+		<servlet-class>com.google.code.checkmein.servlets.CheckInServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CheckInServlet</servlet-name>
+		<url-pattern>/checkin</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	
+	<!--  Cron Jobs -->
+	<servlet>
+		<servlet-name>EventAttendingUpdaterServlet</servlet-name>
+		<servlet-class>com.google.code.checkmein.servlets.EventAttendingUpdaterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EventAttendingUpdaterServlet</servlet-name>
+		<url-pattern>/cron/eventattendingupdater</url-pattern>
+	</servlet-mapping>
+		
+	
+	<!--  Debug / Test servlets -->
+	<servlet>
+		<servlet-name>StatisticsServlet</servlet-name>
+		<servlet-class>com.google.code.checkmein.servlets.StatisticsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StatisticsServlet</servlet-name>
+		<url-pattern>/admin/stats</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>POCDataInitServlet</servlet-name>
+		<servlet-class>com.google.code.checkmein.servlets.POCDataInitServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>POCDataInitServlet</servlet-name>
+		<url-pattern>/admin/pocdatainit</url-pattern>
+	</servlet-mapping>
+			<servlet>
+		<servlet-name>Dump</servlet-name>
+		<servlet-class>com.google.code.checkmein.servlets.Dump</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Dump</servlet-name>
+		<url-pattern>/admin/dump</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>EmailTester</servlet-name>
+		<servlet-class>com.google.code.checkmein.servlets.EmailTesterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EmailTester</servlet-name>
+		<url-pattern>/admin/sendemail</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PersonUpdate</servlet-name>
+		<servlet-class>com.google.code.checkmein.servlets.PersonUpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PersonUpdate</servlet-name>
+		<url-pattern>/admin/personupdate</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!--  Make /admin secure -->
+	<security-constraint>
+        <web-resource-collection>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <!--  Make /cron secure -->
+    <security-constraint>
+        <web-resource-collection>
+            <url-pattern>/cron/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+	
+	
+		
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	
+</web-app>

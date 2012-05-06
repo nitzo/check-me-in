@@ -1,0 +1,169 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.restfb.types.User" %>
+<%@ page import="com.restfb.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.google.code.checkmein.util.*" %>
+<%@ page import="com.google.code.checkmein.BLogic.PRServerLogic" %>
+<%@ page import="com.google.code.checkmein.db.PR" %>
+<%@ page import="com.google.code.checkmein.db.Event" %>
+<%@ page import="com.google.code.checkmein.db.DatabaseLogic" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
+<link rel="stylesheet" type="text/css" href="../Css/PRwelcome.css"/>
+<title>PR welcome Page</title>
+</head>
+<body>
+	<%
+	
+		boolean DEBUG = false;
+	
+		/** Config Params **/
+		
+		//TODO: Move to db
+		String APP_ID = "164864586891890";
+		String APP_SECRET = "4aa3a68259afc8875fb899fec316e803";
+		String SCOPE = "email,offline_access,user_events,publish_stream"; //Permissions requered from user for APP
+		String CANVAS_APP_URL = "http://apps.facebook.com/promote-me-in/";
+	
+		/** Members **/
+		
+		PR pr = null;
+		PRServerLogic prlogic;
+		List<String> updates = null;
+		List<Event> promotedEvents;
+		List<Event> pastEvents;
+		List<com.restfb.types.Event> unPromotedEvents;				
+		
+		/** Facebook Authenication & Validation procedure **/
+		
+		ExtendedFaceBookClient fbclient = new ExtendedFaceBookClient(APP_ID, APP_SECRET);
+		Parameter scope = Parameter.with("scope", SCOPE);
+		
+		//Verify user has installed our app. If not Redirect to Installation + Redirect Back
+		if (!fbclient.checkUser(request, response, true, scope) && !DEBUG){ 
+		
+		%>
+			<script type="text/javascript">
+		        top.location = "<%= fbclient.getCanvasAuthorizeURL(CANVAS_APP_URL, scope) %>";
+		 	</script>
+		<%
+			return;
+		}
+		
+		if (DEBUG){			
+			//pr = PRServerLogic.getPR("788734623");
+			//fbclient = new ExtendedFaceBookClient(pr.getAccessToken());
+		}
+		
+		//Get current user details for update in DB
+		User user;
+		user = fbclient.fetchObject("me",User.class);
+						
+		/** End Facebook Authentication & Validation procedure **/
+			
+		if (user == null){
+			//TODO: Print Error
+			out.println("Error getting user detials");
+			return;
+		}
+		
+		else{
+			prlogic = new PRServerLogic(user, fbclient.getAccessToken());
+			pr = prlogic.getPR();
+		}
+					
+		//get all the events & updates	
+		if (pr != null){			
+			
+			
+			/***** Updates temp fix *****/
+			//TODO: Fix!!
+			updates = prlogic.getUpdates();
+			
+			
+			
+			promotedEvents = prlogic.getPromotedEvents();
+			pastEvents = prlogic.getPastPromotedEvent();
+			unPromotedEvents = prlogic.getUnPromotedEvents();						
+		%>
+
+	<div id="appFrame"> 
+	
+		<div id="appFrameHeader">
+			<img id="appFrameLogo" src="../pictures/logo.png"/>
+			<%= pr.getFirstName()%>'s Events
+		</div>
+		
+		<div class="InnerFrameHeader">Notification</div>
+		<ul class="notificationsDescription">
+		
+		
+			<%	if (updates == null){ %> 
+					<li> No new updates</li>	
+				<% }
+				else {
+					for(String update : updates){ %>
+					<li><%= update %></li>
+					<%} 
+				}%>		
+		</ul>	
+		
+	
+		<div class="InnerFrameHeader">Promoted Events</div>		
+		<% for(Event event : promotedEvents){ %>
+		<div class="event">
+			<div class="eventDescription">
+				<img class="eventImg" src=<%=event.getPic()%> />
+				<a target = "_top" href="<%= CANVAS_APP_URL %>statistics.jsp?eventid=<%= event.getId()%>" > <%= event.getName() %></a><br />
+				<br />
+				<span> <%= event.getStartTime() %> to <%= event.getEndTime() %></span>
+				<br />
+				<span> <%= event.getLocation() %></span>
+			</div>
+		</div>
+		<%}%>
+		
+		<div class="InnerFrameHeader">Unpromoted Events</div>
+		<% for(com.restfb.types.Event event : unPromotedEvents){ %>
+			<div class="event">
+				<div class="eventDescription">			
+					<img class="eventImg" src=<%=event.getPicUrl()%> />
+					<span><%= event.getName() %></span>
+					<span class="actionLink">
+						<a target = "_top" href="<%= CANVAS_APP_URL %>buzz.jsp?eventid=<%= event.getId()%>">
+							Promote!
+						</a>
+					</span>
+					<br />
+					<span> <%= event.getStartTime() %> to <%= event.getEndTime() %></span>
+					<br />
+					<span> <%= event.getLocation() %></span>
+				</div>
+			</div>
+		<%}%>
+				
+		<div class="InnerFrameHeader">Past Events</div>
+		<% for(Event event : pastEvents){ %>
+		<div class="event">
+			<div class="eventDescription">
+				<img class="eventImg" src=<%=event.getPic()%> />
+				<a target = "_top" href="<%= CANVAS_APP_URL %>statistics.jsp?eventid=<%= event.getId()%>"><%= event.getName() %></a><br />
+				<br />
+				<span> <%= event.getStartTime() %> to <%= event.getEndTime() %></span>
+				<br />
+				<span> <%= event.getLocation() %></span>
+			</div>
+		</div>
+		<%} %>
+
+	</div>
+
+	<%}else{
+		//TODO: Handle Error
+		out.println("Error getting user detials"); 		
+		}
+	%>
+</body>
+</html>

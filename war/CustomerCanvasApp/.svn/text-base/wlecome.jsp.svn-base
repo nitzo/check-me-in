@@ -1,0 +1,64 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.restfb.types.*" %>
+<%@ page import="com.restfb.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.google.code.checkmein.util.*" %>
+
+<html>
+  <body>
+		
+	<%
+		out.println(DebugUtils.dump(request));
+	
+		ExtendedFaceBookClient fbclient = new ExtendedFaceBookClient("181101565234488","79428730ab821cfeb9b89912b10f1b31");
+		
+		Parameter scope = Parameter.with("scope", "email,user_events,offline_access,publish_stream");
+		
+		if (!fbclient.checkUser(request, response, true, scope)){ %>
+			 <script type="text/javascript">
+		        top.location = "<%= fbclient.getCanvasAuthorizeURL("http://apps.facebook.com/check-me-in/", scope) %>";
+		 	</script>
+		<%}
+		
+		
+		
+		User u;
+		
+		u = fbclient.fetchObject("me",User.class);
+		out.println(u.toString());
+		
+		
+		out.println("<br>");
+		
+		out.println(fbclient.getAccessToken());
+		
+		List<Event> events = new ArrayList<Event>();
+		//Fetch all attending people
+		try {
+			//fbclient.fetchConnection("137850206271167" + "/attending", User.class);
+			events = fbclient.executeQuery("SELECT eid,name,location from event where eid in (SELECT eid from event_member where uid = me() and rsvp_status='attending')", Event.class);
+		} catch (FacebookException e) {
+			// TODO Auto-generated catch block
+			out.println(e.toString());
+		}%>		
+		
+		<table BORDER=1 ALIGN=CENTER >
+			<tr BGCOLOR=#FFAD00><td>Event ID</td><td>Event Name</td><td>Event Location</td></tr>
+		
+		<% for (Event event : events){ %>
+			<tr>
+			<td><%= event.getEventID() %></td>
+			<td><%= event.getName() %></td>
+			<td><%= event.getLocation() %></td>			
+			</tr>
+			
+		<% } %>
+		</table>
+		
+		
+	
+	%>
+
+
+  </body>
+</html>

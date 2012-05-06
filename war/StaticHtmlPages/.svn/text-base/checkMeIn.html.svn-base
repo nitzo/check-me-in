@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="windows-1255" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255" />
+<link rel="stylesheet" type="text/css" href="../Css/FacebookStyle.css" />
+<script type="text/javascript">
+// <![CDATA[
+function setVisible(obj, bool){
+
+	obj = document.getElementById(obj);
+
+	//case hide
+	if(bool == false){
+		if(obj.style.visibility != 'none');
+		obj.style.visibility = 'none';
+	//case show
+	}else {
+		 if(obj.style.visibility != 'block');
+		 obj.style.visibility = 'block';
+	}
+}
+// ]]> 
+</script>
+<title>Check Me In Home Page</title>
+</head>
+<body>
+		<div class="appArea">
+		<!-- Item List Container -->
+		<div class="container">	
+			<!--Top Header Container -->
+			<div class="topHeaderContainer">	
+				<div class="topHeader">
+					<a class="FBbutton" href="">
+					<span class="FBbuttonText">Button Text</span>
+					</a>
+					<div>
+						<div class="topHeaderText">
+							<h2>
+								<div class="topHeaderLogo"></div>
+								Header Title
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Inner Container -->
+			<div class="innerContainer">
+				<div class="innerContainerHeaderWraper">
+					<div class="innerContainerHeader">
+						<h3>Inner Header Text</h3>
+					</div>
+				</div>
+
+				<div class="innerContainerContent">
+					<!-- Inner Container List -->
+					<ul>
+
+						<!-- Inner Conteiner Item-->
+						<li> 
+							<div class="innerContainerContentItem">
+								<a href="">
+									<img src="../pictures/InnerItemPic.png"/>						
+								</a>
+								<div class="innerContainerContentItemButton">
+									<input type="submit" value="Send Coupon" onclick="setVisible('popMessage', true)">
+										<span class="innerContainerContentItemButtonText">Inner Button Text</span>
+									</input>
+								</div>
+								<div class="innerContainerContentItemDescription">
+									<span class="innerContainerContentItemDescriptionTitle">
+										<a>The Event Title</a>
+									</span>
+									<div class="innerContainerContentItemDescriptionSubtitle">Inner subtitle text</div>
+									<a>Inner subtitle link</a>
+								</div>
+							</div>
+						</li>							
+					</ul>
+				</div>					
+			</div>	
+			
+		<!-- popup container -->
+		<div id="popMessage" class="popContainer" >
+			<div class="popContentWarper">
+				<div class="popContent">
+					<h2>
+						<span>Popup Title</span>
+					</h2>
+					<div class="popTextAreaOuterWraper">
+						<div class="popTextAreaInnerWraper">
+							<div class="popTextArea">
+								<form>
+									<table>
+										<tbody>						
+											<tr>
+												<th class="label">the label</th>
+												<td class="data">
+													<input id="dataInput" class="formData"/>
+												</td>
+												<td class="rightCol"></td>
+											</tr>
+					
+											<tr>
+												<th class="label"></th>
+												<td class="data">
+													<div class="formBlueButton">
+													<input type="submit" value="Form Blue Button"/>
+													</div>	
+												</td>
+											</tr>
+										</tbody>	
+									</table>
+								</form>	
+							</div>							
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+
+
+		</div>
+
+
+</body>
+</html>

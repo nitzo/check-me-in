@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+	<application>check-me-in</application>
+	<version>2</version>
+	
+	
+	<system-properties>
+		<!-- Configure java.util.logging -->
+		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+			
+		<!--  Application Settings -->
+		
+			<!-- Facebook Promote-Me-In Settings -->
+			<property name="checkmein.facebook.PR.APP_ID" value="164864586891890" />
+			<property name="checkmein.facebook.PR.APP_SECRET" value="4aa3a68259afc8875fb899fec316e803" />
+			<property name="checkmein.facebook.PR.SCOPE" value="email,offline_access,user_events,publish_stream" />
+			<property name="checkmein.facebook.PR.CANVAS_APP_URL" value="http://apps.facebook.com/promote-me-in/" />
+			
+			<!-- Facebok Check-me-in Settings -->
+			<property name="checkmein.facebook.CUSTOMER.APP_ID" value="181101565234488" />
+			<property name="checkmein.facebook.CUSTOMER.APP_SECRET" value="79428730ab821cfeb9b89912b10f1b31" />
+			<property name="checkmein.facebook.CUSTOMER.SCOPE" value="email,offline_access,publish_stream,user_birthday" />
+			<property name="checkmein.facebook.CUSTOMER.CANVAS_APP_URL" value="http://apps.facebook.com/check-me-in/" />
+		
+			<!--  Additional Settings -->
+				
+			<!--  How many minutes after event start to continue updating event -->
+			<property name="checkmein.event.updateAfterStartTimeMinutes" value="180" /> 
+			<!--  How many minutes after event start to allow checkin -->
+			<property name="checkmein.event.allowCheckInAfterStartTimeMinutes" value="180" />
+			
+			<!--  How many people checked-in for congratulations -->
+			<property name="checkmein.event.Congratulations" value="3" />
+			
+			<!--  user for sending SMS from -->
+			<property name="email" value="checkmein.checkmein@gmail.com" />
+			<!--  username for sending SMS -->
+			<property name="usernameforSMS" value="checkmein" />
+			<!--  password for sending SMS -->
+			<property name="passwordforSMS" value="26ddf1ff3513b9977a2fbf4c03ff2c21" />
+			
+			
+			<!--  Servlets locations -->
+			<property name="checkmein.baseurl" value="http://check-me-in.appspot.com" />
+			<property name="checkmein.checkinservlet" value ="checkin"/>
+			<property name="checkmein.qrgeneratorservlet" value ="qr.jsp"/>
+			 
+	</system-properties>
+	
+	
+	<!-- Enable Sessions support -->
+	<sessions-enabled>true</sessions-enabled>
+</appengine-web-app>

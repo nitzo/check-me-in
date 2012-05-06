@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1255" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255" />
+<link rel="stylesheet" type="text/css" href="../Css/applicationStyle.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="../Css/printStyle.css" media="print"/>
+<script type="text/javascript">
+// <![CDATA[
+window.onload=window.print();
+// ]]> 
+</script>
+<title>My QR copuon</title>
+</head>
+<body>
+	<div class="frameWraper">
+		<div class="middleContent">
+			<div class="printContent">
+				<h4>Bring this coupon to: </h4>
+				<h5>Google Office on 17.1 17:00</h5>				
+				<br />					
+				<h4>We will take care for the rest...</h4>					
+			</div>
+			<div class="couponContainer">
+				<div class="logoWraper">
+					<img class="Logo" src="../pictures/Coupon Logo/google milestone 3.png" alt="Check Me In"/>
+				</div>
+				<input type="image" class="qrCoupon" onclick="window.print()" src="http://chart.apis.google.com/chart?chs=400x400&cht=qr&chld=l|0&chl=http%3A%2F%2Fcheck-me-in.appspot.com%2Fcheckin%3Ffacebookid%3DcustomerID%26eventid%3DeventID" alt="--Customer Name--'s coupon" />
+				<div class="text">
+					-Number-
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

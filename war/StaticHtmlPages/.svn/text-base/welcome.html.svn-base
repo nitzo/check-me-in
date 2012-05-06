@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="windows-1255" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../Css/PRwelcome.css"/>
+</head>
+<body>
+	<div id="appFrame">
+
+		<div id="appFrameHeader">
+			<img id="appFrameLogo" src="../pictures/logo.png"/>
+			--PR name-- Events
+		</div>
+		
+		<div class="InnerFrameHeader">Notification</div>
+		<ul class="notificationsDescription">
+			<li>new notification</li>
+		</ul>	
+		
+		<div class="InnerFrameHeader">Promoted Events</div>		
+		<div class="event">
+			<div class="eventDescription">
+				<img class="eventImg" src="../Dummy/earth.jpg" />
+				<a href="statistics.jsp">Promoted Event</a>
+				<br />
+				<span> the time of the event</span>
+				<br />
+				<span> the location of the event</span>
+			</div>
+		</div>
+		
+		<div class="InnerFrameHeader">Unpromoted Events</div>
+		<div class="event">
+			<div class="eventDescription">
+				<img class="eventImg" src="../Dummy/earth.jpg" />
+				<a href="statistics.jsp">Unpromoted Event</a>
+				<span class="actionLink"><a href="">Promote!</a></span>
+				<br />
+				<span class="eventDescription"> the time of the event</span>
+				<br />
+				<span class="eventDescription"> the location of the event</span>
+			</div>
+		</div>
+		
+		<div class="InnerFrameHeader">Past Events</div>
+		<div class="event">
+			<div class="eventDescription">
+				<img class="eventImg" src="../Dummy/earth.jpg" />
+				<a href="statistics.jsp">Promoted Event</a>
+				<br />
+				<span> the time of the event</span>
+				<br />
+				<span> the location of the event</span>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

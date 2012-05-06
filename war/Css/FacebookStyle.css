@@ -1,0 +1,514 @@
+@CHARSET "windows-1255";
+
+/*************/
+/*ifram style*/
+/*************/
+
+body{
+	background: none repeat scroll 0 0 #FFFFFF;
+    color: #333333;
+    direction: ltr;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    unicode-bidi: embed;
+}
+
+.appArea{
+	padding-right: 0;
+    width: 758px;
+	padding: 0 20px;
+	float: left;
+    margin-right: 0;
+	padding-left: 1px;
+    word-wrap: break-word;
+	position:relative;
+	display: block;
+	unicode-bidi: embed;
+}
+
+/**************************/
+/*container for items list*/
+/**************************/
+
+.container{
+	display: block;
+	unicode-bidi: embed;
+	word-wrap: break-word;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.topHeaderContainer{
+	padding: 6px 0 16px;	
+	display: block;
+	unicode-bidi: embed;
+}
+
+.topHeader{
+	position: relative;
+	display: block;
+}
+
+.topHeader h2{
+    padding: 0;
+	line-height: 20px;
+    min-height: 20px;
+    padding-bottom: 2px;
+    vertical-align: bottom;
+	padding-left: 22px;
+	color: #1C2A47;
+    font-size: 16px;
+	margin: 0;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.topHeaderLogo{
+	top: 2px;
+	background-position: 0 -17px;
+    height: 17px;
+	background-image: url("http://static.ak.fbcdn.net/rsrc.php/zP/r/3lpM16jb1d_.png"); /*The Header Icon*/
+    background-repeat: no-repeat;
+    display: inline-block;
+	width: 16px;
+	left: 0;
+    position: absolute;
+	font-style: italic;
+}
+
+.FBbutton{
+	margin-top: -1px;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+	background: none repeat scroll 0 0 #DDDDDD;
+    border-bottom-color: #999999;
+	float: right;
+	
+	border-color: #999999 #999999 #888888;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: normal !important;
+    padding: 2px 6px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    white-space: nowrap;
+	
+	color: #3B5998;
+	word-wrap: break-word;
+	direction: ltr;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+
+.FBbuttonText{
+	
+	background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Lucida Grande',Tahoma,Verdana,Arial,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 0;
+    outline: medium none;
+    padding: 1px 0 2px;
+    white-space: nowrap;
+	line-height: normal !important;
+    text-align: center;
+    text-decoration: none;
+	border-style: solid;
+	word-wrap: break-word;
+}
+
+.innerContainer{
+	display: block;
+	unicode-bidi: embed;
+}
+
+.innerContainerHeaderWraper{
+	background-color: #F2F2F2;
+    border-bottom: medium none;
+    border-top: 1px solid #E2E2E2;
+    padding: 4px 5px 5px;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.innerContainerHeader{
+	display: block;
+	unicode-bidi: embed;
+}
+
+.innerContainerHeader h3{
+	color: #333333;
+    font-size: 11px;
+	margin: 0;
+    padding: 0;
+	display: block;
+	font-weight: bold;
+	unicode-bidi: embed;
+}
+
+.innerContainerContent{
+	padding-left: 5px;
+    padding-right: 5px;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.innerContainerContent ul{
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+	-moz-padding-start: 40px;
+    display: block;
+	unicode-bidi: embed;
+}
+
+.innerContainerContent li{
+	border-width: 1px 0 0;	
+	padding-bottom: 8px;
+    padding-top: 8px;
+	border-color: #E9E9E9;
+	border-style: solid;
+	display: block;
+	unicode-bidi: embed;
+	list-style-type: none;
+}
+
+.innerContainerContentItem{
+	display: block;
+	unicode-bidi: embed;
+}
+
+.innerContainerContentItem a{
+	margin-right: 10px;
+	float: left;
+	color: #3B5998;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.innerContainerContentItemButton{
+	text-align: right;
+	margin-top: 14px;
+    padding-left: 8px;
+	float: right;
+	display: block;
+	unicode-bidi: embed;
+} 
+
+.innerContainerContentItemButton input{
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background: url("http://static.ak.fbcdn.net/rsrc.php/zD/r/B4K_BWwP7P5.png") repeat scroll 0 0 #EEEEEE;
+    border-color: #999999 #999999 #888888;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: normal !important;
+    padding: 2px 6px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    white-space: nowrap;	
+	
+	color: #3B5998;
+}
+
+.innerContainerContentItemButtonText{
+	background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Lucida Grande',Tahoma,Verdana,Arial,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 0;
+    outline: medium none;
+    padding: 1px 0 2px;
+    white-space: nowrap;
+}
+
+.innerContainerContentItemDescription{
+	height: 50px;
+    vertical-align: middle;
+	display: table-cell;
+	width: 10000px;
+	unicode-bidi: embed;
+}
+
+.innerContainerContentItemDescriptionTitle{
+	line-height: 14px;
+	color: #333333;
+    font-size: 13px;
+    font-weight: bold;
+	margin-right: 5px;
+}
+
+.innerContainerContentItemDescriptionTitle a{
+	color: #3B5998;
+    cursor: pointer;
+    text-decoration: none;
+	line-height: 14px;
+	font-size: 13px;
+    font-weight: bold;
+}
+
+.innerContainerContentItemDescriptionSubtitle{
+	line-height: 14px;
+	color: #808080;
+    font-size: 11px;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.innerContainerContentItemDescriptionSubtitle a{
+	color: #3B5998;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/***************/
+/*Form style*/
+/***************/
+
+.formContainer{
+	border-top: 1px solid #B3B3B3;
+	padding: 20px;
+	border: medium none;
+	background-color: #F2F2F2;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.formContainer form{
+	margin: 0;
+    padding: 0;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.formContainer table{
+	border: 0 none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+	margin-left: 20px;
+	margin-top: 10px;
+	-moz-box-sizing: border-box;
+	display: table;
+    margin-bottom: 0;
+	text-indent: 0;
+	unicode-bidi: embed;
+}
+
+.formContainer tr{
+	display: table-row;
+    vertical-align: inherit;
+	unicode-bidi: embed;
+}
+
+.formContainer th.label{
+	text-align: left;
+    width: 145px;
+	padding-top: 9px;
+	color: #666666;
+    font-weight: bold;
+    padding-right: 10px
+	padding: 3px 0 1px;
+	vertical-align: top;
+	display: table-cell;
+	unicode-bidi: embed;
+}
+
+.formContainer td.data{
+	padding-top: 5px;
+	padding: 3px 0 1px;
+    text-align: left;
+    vertical-align: top;
+	font-size: 11px;
+	display: table-cell;
+	unicode-bidi: embed;
+}
+
+.formContainer input.formData{
+	margin-left: 0;
+	width: 375px;
+	margin: 0;
+    padding-bottom: 4px;
+	border: 1px solid #BDC7D8;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    padding: 3px;
+	-moz-user-modify: read-write !important;
+	-moz-appearance: textfield;
+    -moz-binding: url("chrome://global/content/platformHTMLBindings.xml#inputFields");
+    -moz-user-select: text;
+    background-color: -moz-field;
+	color: -moz-fieldtext;
+    cursor: text;
+    font: -moz-field;
+    letter-spacing: normal;
+    line-height: normal !important;
+	text-align: start;
+    text-indent: 0;
+    text-rendering: optimizelegibility;
+    text-shadow: none;
+    text-transform: none;
+    word-spacing: normal;
+}
+
+.formContainer td.rightCol{
+	padding-top: 5px;
+	padding: 0 0 0 20px;
+    width: 225px;
+	text-align: left;
+    vertical-align: top;
+	font-size: 11px;
+	display: table-cell;
+	unicode-bidi: embed;
+}
+
+.formBlueButton{
+	color: #666666;
+	background: none repeat scroll 0 0 #4F6AA3;
+    border-bottom-color: #29447E;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+	float: left;
+	font-size: 13px;
+	background-color: #5B74A8;
+    background-position: 0 -48px;
+    border-color: #29447E #29447E #1A356E
+	border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    display: inline-block;
+	font-weight: bold;
+    line-height: normal !important;
+    padding: 2px 6px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.formBlueButton input{
+	font-size: 13px;
+	color: #FFFFFF;
+	background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+	cursor: pointer;
+    display: inline-block;
+    font-family: 'Lucida Grande',Tahoma,Verdana,Arial,sans-serif;
+	font-weight: bold;
+    margin: 0;
+    outline: medium none;
+    padding: 1px 0 2px;
+    white-space: nowrap;
+	-moz-appearance: button;
+    -moz-binding: none;
+    -moz-box-sizing: border-box;
+    -moz-user-select: none;
+	font: -moz-button;
+    line-height: normal !important;
+	text-align: center;
+    text-shadow: none;
+	text-indent: 0;
+    text-rendering: optimizelegibility;
+	text-transform: none;
+    word-spacing: normal;
+}
+
+/***************/
+/*Popup message*/
+/***************/
+
+.popContainerWarper{
+	display: none;
+    position: absolute;
+	height: 0;
+    left: 100px;
+    top: 50px;
+    width: 100%;
+    z-index: 105;
+	unicode-bidi: embed;
+}
+
+.popContainer{
+	top: 125px;
+    width: 562px;
+	height: 0;
+    margin: auto;
+    overflow: visible;
+    position: relative;
+	height: 0;
+    margin: auto;
+    overflow: visible;
+    position: relative;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.popContentWarper{
+	-moz-border-radius: 8px 8px 8px 8px;
+    background: none repeat scroll 0 0 rgba(82, 82, 82, 0.7);
+    padding: 10px;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.popContent{
+	direction: ltr;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.popContent h2{
+	background: none repeat scroll 0 0 #6D84B4;
+    border-color: #3B5998 #3B5998 -moz-use-text-color;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+	padding: 0;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.popTextAreaOuterWraper{
+	background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #555555;
+    border-right: 1px solid #555555;
+    border-style: solid;
+    border-width: 0 1px 1px;
+	display: block;
+	unicode-bidi: embed;	
+}
+
+.popTextAreaInnerWraper{
+	border-bottom: 0 none;
+	padding: 10px;
+	display: block;
+	unicode-bidi: embed;
+}
+
+.popTextArea{
+	padding: 10px;
+	display: block;
+	unicode-bidi: embed;
+}
+
+

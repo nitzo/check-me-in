@@ -1,0 +1,244 @@
+package com.google.code.checkmein.db;
+
+import java.util.Date;
+
+import java.util.LinkedList;
+import java.util.List;
+import javax.jdo.PersistenceManager;
+
+public class DatabaseLogic {
+
+	/**
+	 * getEvent
+	 * @return Event whose EventID equals id. 
+	 */
+	public static Event getEvent(String id){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		//List<Event> events = new LinkedList<Event>();
+		Event e = null;
+		String query= "select from " + Event.class.getName() + " where id == '" + id +"'";
+		try { 
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) pm.newQuery(query).execute();
+			if(events.size() > 0){
+				e = events.get(0);
+			}
+		}
+		finally{
+			pm.close();
+		}
+		return e;
+	}
+	
+	/**
+	 * getCustomer
+	 * @return Customer whose id equals a given id. 
+	 */
+	public static Customer getCustomer(String id) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		//List<Customer> customer = new LinkedList<Customer>();
+		Customer c = null;
+		String query= "select from " + Customer.class.getName() + " where id == '" + id +"'";
+		try{
+			@SuppressWarnings("unchecked")
+			List<Customer> customer = (List<Customer>) pm.newQuery(query).execute();
+			if (customer.size() > 0){
+				c = customer.get(0);
+			}
+		}
+		finally{
+			pm.close();
+		}
+		return c;
+	}
+	
+	/**
+	 * getOwner
+	 * @return PR whose id equals a given id.
+	 */
+	
+	public static PR getPR(String id){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		//List<PR> prs =  new LinkedList<PR>();
+		PR pr = null;
+		String query= "select from " + PR.class.getName() + " where id == '" + id +"'";
+		try{
+			@SuppressWarnings("unchecked")
+			List<PR> prs = (List<PR>) pm.newQuery(query).execute();
+			if (prs.size() > 0){
+				pr = prs.get(0);
+			}
+		}
+		finally{
+			pm.close();
+		}
+		return pr;
+	}
+	
+	/**
+	 * getNotStartedEvents 
+	 * @return List<Event> notStarted - a linked list of events not started right now 
+	 * if no event has started yet - returns null
+	 */
+	public static List<Event> getNotStartedEvents(){ //TODO: Optimize query
+		List<Event> notStarted = null;
+		Date now = new Date();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String query= "select from " + Event.class.getName() ;
+		try{
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) pm.newQuery(query).execute();
+			if(events.size() > 0){
+				notStarted = new LinkedList<Event>();
+				for(Event e: events){
+					if(e.getStartTime().after(now)){
+						notStarted.add(e);
+					}
+				}
+			}
+		}
+		finally {
+			pm.close();
+		}
+		
+		return notStarted;
+	}
+	
+	/**
+	 * getPromotedEvents(String ownerID) returns a list of promoted events of a PR with the id = ownerID
+	 * @return List<Event> events - list of promoted events from facebook
+	 */
+	public static List<Event> getPromotedEvents(String ownerID){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String query= "select from " + Event.class.getName() + " where ownerID == '" + ownerID + "'";
+		List<Event> events = null;
+		try{
+			@SuppressWarnings("unchecked")
+			List<Event> eventsDB = (List<Event>) pm.newQuery(query).execute();
+			//Copy events to a new list becuase of DB errors
+			//TODO: Fix this
+			if(eventsDB.size() > 0){
+				events = new LinkedList<Event>();
+				events.addAll(eventsDB);
+				//for (Event e : eventsDB){
+				//	events.add(e);
+				//}
+			}
+		}
+		finally{
+			pm.close();
+		}
+		
+		return events;
+	}
+	
+	//TODO: Handle Exception??
+	public static Event promoteEvent(com.restfb.types.Event event, PR owner){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();	
+		Event promotedEvent = new Event(event);
+				
+		promotedEvent.setOwnerID(owner.getId());
+		owner.addEvent(promotedEvent.getId());
+		
+		try{
+			pm.makePersistent(promotedEvent);
+			pm.makePersistent(owner);
+		}
+		finally{
+			pm.close();
+		}
+		
+		return promotedEvent;
+	}
+	
+	//TODO: Handle Exception??
+	private static void saveClass(Object T){ 
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try{
+			pm.makePersistent(T);	
+		}
+		finally{
+			pm.close();
+		}
+	}
+
+	public static void createCustomer(Customer customer) {
+		saveClass(customer);
+	}
+
+	public static void createPR(PR pr) {
+		saveClass(pr);		
+	} 
+	
+	//TODO: Handle Exception??
+	public static void setAttend(Event event, Customer c) {
+				
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		event.addAttending(c.getId());
+		c.confirmEvent(event.getId());
+			
+		try {
+			pm.makePersistent(event);
+			pm.makePersistent(c);
+		}
+		finally{
+			pm.close();
+		}
+	}
+
+	//TODO: Handle Exception??
+	public static void setUnAttend(Event event, Customer c) {
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		event.removeAttending(c.getId());
+		c.removeEvent(event.getId());
+
+		try {
+			pm.makePersistent(event);
+			pm.makePersistent(c);
+		}
+		finally{
+			pm.close();
+		}
+	}
+
+	//TODO: Handle Exception??
+	public static void setCheckedIn(Event event, Customer customer) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+			
+		customer.attendEvent(event.getId());
+		customer.removeEvent(event.getId());
+		event.addCheckedIn(customer.getId(),customer.getGender(),customer.getAVGattendingRate());
+		event.removeAttending(customer.getId());
+		
+		try {
+			pm.makePersistent(event);
+			pm.makePersistent(customer);
+		}
+		finally {
+			pm.close();
+		}
+	}
+	
+	public static void setSettings(Customer customer, String cell){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		if(cell.equals("email")){
+			customer.setGetQRbyEmail();
+		}
+		else{
+			customer.setGetQRbyPhone(cell);
+		}
+		
+		try {
+			pm.makePersistent(customer);
+		}
+		finally {
+			pm.close();
+		}
+	}
+	
+}

@@ -1,0 +1,107 @@
+﻿
+<html lang="iw" dir="rtl">
+ <meta http-equiv="Content-Type" content="text/html;" charset="utf-8">
+<body>
+<table cellspacing="0" cellpadding="40" border="0" width="98%">
+<tbody>
+<tr>
+<td bgcolor="#F7F7F7" width="100%" style="font-family: arial,sans-serif;direction: rtl;">
+<table cellspacing="0" cellpadding="0" border="0" width="620">
+<tbody>
+<tr>
+<td style="background: none repeat scroll 0% 0% rgb(21, 95, 89); color: rgb(255, 255, 255); font-weight: bold; font-family: arial,sans-serif; padding: 4px 8px; vertical-align: middle; font-size: 16px; letter-spacing: -0.03em; text-align: right;direction: rtl;">
+<a target="_blank" style="color: rgb(255,255,255); text-decoration: none; font-weight: bold;" href="$COUPON_URL">קופון ל $TITLE</a>
+</td>
+<td style="background: none repeat scroll 0% 0% rgb(21, 95, 89); color: rgb(255, 255, 255); font-weight: bold; font-family: arial,sans-serif; padding: 4px 8px; vertical-align: middle; font-size: 12px; text-align: right;">
+</td>
+</tr>
+<tr>
+<td valign="top" style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(21, 95, 89); border-left: 1px solid rgb(204, 204, 204); border-right: 1px solid rgb(204, 204, 204); font-family: arial,sans-serif; padding: 15px;"colspan="2">
+<table width="100%">
+<tbody>
+<tr>
+<td align="right" width="100%" valign="top" style="font-size: 12px;">
+<table>
+<tr>
+<td align="right" width="100%" valign="top" style="font-size: 12px;direction: rtl;">
+אהלן,
+<br/>
+<br/>
+אנחנו שמחים שבחרתם להשתתף ב
+<a target="_blank" style="color: rgb(21, 95, 89); text-decoration: none; font-weight: bold;" href="$EVENT_URL">$EVENT_NAME</a>&nbsp;
+</td>
+</tr>
+</table>
+<div style="margin-bottom: 15px;">
+<div style="border-bottom: 1px solid rgb(204, 204, 204); line-height: 5px;">
+&nbsp;
+</div>
+<table cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-top: 5px;">
+<tbody>
+<tr>
+<td align="right" width="100%" valign="top" style="font-size: 12px;">
+<div style="margin-bottom: 15px; font-size: 12px;text-align: right;direction: rtl;">
+<br/>
+כל כך שמחים שבחרנו לצפ'ר אתכם בפינוק קטן על חשבוננו!
+<br/>
+כן, כן מה ששמעתם!
+</div>
+</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-top: 5px;">
+<tbody>
+<tr>
+<td width="100%" valign="top" style="font-size: 12px;">
+<div align="right" style="margin-bottom: 15px; font-size: 12px;text-align: right;direction: rtl;">
+אז איך תקבלו את הפינוק אתם תוהים...?? פשוט מאוד
+<ol dir="rtl">
+<li align="right">
+ליחצו על <a target="_blank" style="color: rgb(21, 95, 89); text-decoration: underline; font-weight: bold;" href="$COUPON_URL">הלינק</a>
+</li>
+<li>
+הדפיסו את הקופון המופיע
+</li>
+<li>
+קחו אותו איתכם ל
+<a target="_blank" style="color: rgb(21, 95, 89); text-decoration: none; font-weight: bold;" href="$EVENT_URL">$EVENT_NAME</a>
+</li>
+</ol>
+ואנחנו כבר נדאג לשאר...
+</div>
+</tr>
+</tbody>
+</table>
+<tr>
+<td align="left" width="100%" valign="center" style="font-size: 10px;direction: rtl;">
+<div style="border-bottom: 1px solid rgb(204, 204, 204); line-height: 5px;">
+&nbsp;
+</div>
+</td>
+</tr>
+<table cellspacing="0" cellpadding="0" border="0">
+<tbody>
+
+<tr>
+<td align="left" width="100%" valign="center" style="font-size: 10px;direction: rtl;">
+<br />
+  נשלח באמצעות
+   <a target="_blank" style="color: rgb(21, 95, 89); text-decoration: underline; font-weight: bold;" href="http://apps.facebook.com/check-me-in">Check-Me In</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

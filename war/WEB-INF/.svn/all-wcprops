@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/336/trunk/check-me-in/war/WEB-INF
+END
+appengine-web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/336/trunk/check-me-in/war/WEB-INF/appengine-web.xml
+END
+cron.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/74/trunk/check-me-in/war/WEB-INF/cron.xml
+END
+logging.properties
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/28/trunk/check-me-in/war/WEB-INF/logging.properties
+END
+web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/334/trunk/check-me-in/war/WEB-INF/web.xml
+END

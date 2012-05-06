@@ -1,0 +1,74 @@
+@CHARSET "windows-1255";
+
+.frameWraper{
+	width:100%;
+	height:100%;
+	position:relative;
+	vertical-align:middle;
+}
+
+
+.middleContent{
+	margin-left: auto;
+	margin-right: auto;
+	width:60%;
+	border:5px solid #000000;
+	padding: 5px;
+}
+
+.printContent{
+	display:block;
+	float:right;
+	text-align:left;
+	width:60%;
+	height:100%;
+	margin-top:auto;
+	margin-bottom:auto;
+
+}
+
+.printContent h4, h5{
+	margin-left:10px;
+}
+
+.couponContainer{
+	width:30%;
+	border-right:5px solid #000000;
+}
+	
+.logoWraper{
+	width:90%;
+}
+
+.Logo{
+	width:100%;
+}
+
+.leftLogo{
+	float:left;
+	width:50%;
+	max-width:100px;
+}
+
+.rightLogo{
+	float:right;
+	width:50%;
+	max-width:100px;
+}
+
+.qrCoupon{
+	margin-left:auto;
+	margin-right:auto;
+	width:90%;
+}
+
+.text{
+	text-align:center;
+	vertical-align:middle;
+}
+
+.printButton{
+	display:none;
+}
+
+

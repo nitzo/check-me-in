@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="windows-1255" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255" />
+<link rel="stylesheet" type="text/css" href="Css/applicationStyle.css"/>
+<title>PR Backup code</title>
+</head>
+<script type="text/javascript">
+// <![CDATA[
+function reDirect(){
+
+	obj = document.getElementById('url');
+	var urlAdd = "http://tinyurl.com/" + obj.value;
+	resetFields();
+	top.location = urlAdd; 
+}
+
+function resetFields(){
+	
+	backupnumber = document.getElementById('qrid');
+	backupnumber.value="";
+	url = document.getElementById('url');
+	url.value="";
+	
+}
+// ]]> 
+</script>
+<body class="mobileBody">
+	<script>window.onload =resetFields;</script>
+	<div class="mobileFrame">
+		<div class="mobileInnerFrame"> 
+			<h4>Backup Number</h4>
+			<form method="GET" action="checkin">
+				<input type="text" id="qrid" name="qrid"/>
+				<br />
+				<input type="submit" value="Check-In!"/>
+			</form>
+		</div>
+		<div class="mobileInnerFrame">
+			<h4>SMS Link Address</h4>
+			http://tinyurl.com/<input id="url" type="text" />
+			<br />
+			<input type="button" onclick="reDirect()" value="Check-In!"/>
+		</div> 		
+	</div>
+</body>
+</html>

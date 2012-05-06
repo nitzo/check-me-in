@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="windows-1255" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1255" />
+<link rel="stylesheet" type="text/css" href="../Css/Facebook.css" />
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+
+
+$(document).ready(function(){
+
+	//Hide (Collapse) the toggle containers on load
+	$("#moreEvents").hide(); 
+	$(".moreLink").text('Show All');
+	
+	//Switch the "Open" and "Close" state per click then slide up/down (depending on open/close state)
+	$(".moreLink").click(function(){
+		$("#moreEvents").slideToggle("slow");
+		$(this).hide();
+		
+//		if ($(this).text() == 'more'){
+//			$(this).text('close');
+//		}
+//		else
+//			$(this).text('more');
+		
+		
+		//$(this).siblings("span").toggleClass("arrow_right");
+		//$(this).siblings("span").toggleClass("arrow_down");
+		return false; //Prevent the browser jump to the link anchor
+	});
+
+});
+
+function promoteEvent(eventId){
+	document.myform.eid = eventID;
+	document.myform.submit();
+}
+
+// ]]> 
+</script>
+<title>Promote Me In Home Page</title>
+</head>
+<body>
+
+
+	<div class="appArea">
+	
+	<form name="myform" action="pr.jsp" method="get">
+		<input type=hidden name="action" value="promote" />
+		<input type=hidden name="eid" value="promote" />
+	</form>
+		
+		<!-- check Me In Title -->
+		<div class="topHeaderContainer">	
+			<div class="topHeader">
+				<div>
+					<div class="topHeaderText">
+						<img src="../pictures/checkMeIn_logo.jpg"/>
+						<h2>
+							Promote Me In
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Inner Container -->
+		<div class="innerContainer">
+
+			<!-- Inner Container Title-->
+			<div class="section">
+				<div class="innerContainerHeaderWraper" >
+					<div class="innerContainerHeader" >
+						
+						<h3>Promoted Events</h3>
+					
+					</div>
+				</div>
+				
+				<!-- Inner Container List -->
+				<div class="innerContainerContent">
+					<ul>
+	
+						<!-- Inner Conteiner Item-->
+						<li> 
+							<div class="innerContainerContentItem">
+								<a href="--Event Link--">
+									<img src="../pictures/transperent_40x40.gif" style="background-image: url('/war/pictures/test_pic.jpg'); width:40px; height:40px;"/>						
+								</a>
+								
+								<div class="innerContainerContentItemButton">
+									<a>
+										<span class="innerContainerContentItemButtonText">Settings</span>
+									</a>
+								</div>
+								
+								<div class="innerContainerContentItemButton">
+									<a >
+										<span class="innerContainerContentItemButtonText">Statistics</span>
+									</a>
+								</div>		
+								
+								<span class="innerContainerContentItemButtonGraph">
+									<img  src="http://chart.apis.google.com/chart?chxt=x&chbh=a&chs=200x50&cht=bhs&chco=0000FF,76A4FB&chd=s:M,9&chtt=Known+customers+out+of+Total+Attending&chts=676767,9.5" />							
+								</span>
+														
+								<span class="innerContainerContentItemDescription">
+									<span class="innerContainerContentItemDescriptionTitle">
+										<a href="--Event Link--">--The event Name--</a>
+									</span>
+									<div class="innerContainerContentItemDescriptionSubtitle">--Time of the event--</div>
+									<div class="innerContainerContentItemDescriptionSubtitle">--location of the event--</div>
+								</span>
+							</div>
+						</li>							
+	
+					</ul>
+				</div>
+			</div>	
+			<br/>
+			
+			<div class="section">
+				<div class="innerContainerHeaderWraper">
+					<div class="innerContainerHeader" >
+						<a class="trigger"><h3>Unpromoted Events</h3></a>
+					</div>
+				</div>
+				
+				<!-- Inner Container List -->
+				<div class="innerContainerContent">
+					<ul>
+	
+						<!-- Inner Conteiner Item-->
+						<li> 
+							<div class="innerContainerContentItem">
+								<a href="--Event Link--">
+									<img src="../pictures/transperent_40x40.gif" style="background-image: url('/war/pictures/test_pic.jpg'); width:40px; height:40px;"/>						
+								</a>
+								
+								<div class="innerContainerContentItemButton">
+									<a onclick="javascript: promotEvent('eid')">
+										<span class="innerContainerContentItemButtonText">Promote</span>
+									</a>
+								</div>	
+								
+								
+								<span class="innerContainerContentItemDescription">
+									<span class="innerContainerContentItemDescriptionTitle">
+										<a href="--Event Link--">--The event Name--</a>
+									</span>
+									<div class="innerContainerContentItemDescriptionSubtitle">--Time of the event--</div>
+									<div class="innerContainerContentItemDescriptionSubtitle">--location of the event--</div>
+								</span>
+							</div>
+						</li>							
+	
+					</ul>
+				</div>
+			</div>	
+		
+			<br />
+			
+			<div class="section">
+				<div class="innerContainerHeaderWraper">
+					<div class="innerContainerHeader" >
+						<div class="moreLink">
+							more
+						</div>
+						<a class="trigger"><h3>Past Promoted Events</h3></a>
+					</div>
+				</div>
+				
+				<!-- Inner Container List -->
+				<div class="innerContainerContent">
+					<ul>
+	
+						<!-- Inner Conteiner Item-->
+						<li> 
+							<div class="innerContainerContentItem">
+								<a href="--Event Link--">
+									<img src="../pictures/transperent_40x40.gif" style="background-image: url('/war/pictures/test_pic.jpg'); width:40px; height:40px;"/>						
+								</a>
+								
+								<div class="innerContainerContentItemButton">
+									<a >
+										<span class="innerContainerContentItemButtonText">Statistics</span>
+									</a>
+								</div>	
+								
+								<span class="innerContainerContentItemDescription">
+									<span class="innerContainerContentItemDescriptionTitle">
+										<a href="--Event Link--">--The event Name--</a>
+									</span>
+									<div class="innerContainerContentItemDescriptionSubtitle">--Time of the event--</div>
+									<div class="innerContainerContentItemDescriptionSubtitle">--location of the event--</div>
+								</span>
+							</div>
+						</li>	
+						<div id="moreEvents">						
+						<li> 
+							<div class="innerContainerContentItem">
+								<a href="--Event Link--">
+									<img src="../pictures/transperent_40x40.gif" style="background-image: url('/war/pictures/test_pic.jpg'); width:40px; height:40px;"/>						
+								</a>
+								
+								<div class="innerContainerContentItemButton">
+									<a >
+										<span class="innerContainerContentItemButtonText">Statistics</span>
+									</a>
+								</div>	
+								
+								<span class="innerContainerContentItemDescription">
+									<span class="innerContainerContentItemDescriptionTitle">
+										<a href="--Event Link--">--The event Name--</a>
+									</span>
+									<div class="innerContainerContentItemDescriptionSubtitle">--Time of the event--</div>
+									<div class="innerContainerContentItemDescriptionSubtitle">--location of the event--</div>
+								</span>
+							</div>
+						</li>
+						<li> 
+							<div class="innerContainerContentItem">
+								<a href="--Event Link--">
+									<img src="../pictures/transperent_40x40.gif" style="background-image: url('/war/pictures/test_pic.jpg'); width:40px; height:40px;"/>						
+								</a>
+								
+								<div class="innerContainerContentItemButton">
+									<a >
+										<span class="innerContainerContentItemButtonText">Statistics</span>
+									</a>
+								</div>	
+								
+								<span class="innerContainerContentItemDescription">
+									<span class="innerContainerContentItemDescriptionTitle">
+										<a href="--Event Link--">--The event Name--</a>
+									</span>
+									<div class="innerContainerContentItemDescriptionSubtitle">--Time of the event--</div>
+									<div class="innerContainerContentItemDescriptionSubtitle">--location of the event--</div>
+								</span>
+							</div>
+						</li>
+						</div>
+					</ul>
+				</div>
+			</div>											
+
+		</div>	
+
+	
+
+	</div>
+		
+</body>
+</html>
