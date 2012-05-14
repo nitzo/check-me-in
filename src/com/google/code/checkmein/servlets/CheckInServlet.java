@@ -102,7 +102,7 @@ public class CheckInServlet extends HttpServlet {
 						
 			String postmessage;
 			
-			postmessage = "בטקס הענקת פרסים לסטודנטים מצטיינים באוניברסיטת ת\"א";
+			postmessage = "משתתף בהדגמת אפליקציית Check Me In, במשרדי Google";
 			
 //			if(a==0){
 //				a++;
